@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <limits>
 #include <map>
+#include <unordered_map>
 #include <random>
 
 using namespace std;
@@ -170,17 +171,16 @@ inline int can_slide(ull board) {
 inline double calp(ull board) {
     double u = (16-num_exist(board));
     double u2 = can_slide(board);
-    double u3 = (getm(board, 0, 0) >= 11 ? 1 : 0);
-    double u4 = u3*(getm(board, 0, 0) >= 10 ? 1 : 0);
-    return u+u2/2+u3*3+u4*5;
+    return u+u2;
 }
 
 double calc(ull board, int dps) {
     double p = 0.0;
     int u = 0;
+    int ne;
     const static int k[] = {0, 10, 1};
     ull b, b2;
-    double p2;
+    double p2, p3;
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             if (getm(board, i, j)) continue;
@@ -190,11 +190,13 @@ double calc(ull board, int dps) {
                 if (!dps) {
                     p += calp(b)*k[d];
                 } else {
-                    p2 = -10000;
+                    p2 = -100000;
                     for (int k = 0; k < 4; k++) {
                         b2 = slided(b, k);
                         if (b == b2) continue;
-                        p2 = max(p2, calc(b2, min(1+num_exist(b2)/4, dps-1)));
+                        ne = 1+num_exist(b2)/6;
+                        p3 = calc(b2, min(ne, dps-1));
+                        p2 = max(p2, p3);
                     }
                     p += p2*k[d];
                 }
@@ -207,11 +209,11 @@ double calc(ull board, int dps) {
 int solve(ull board) {
     ull b;
     int r = 0;
-    double p = -100000;
+    double p = -10000000;
     for (int i = 0; i < 4; i++) {
         b = slided(board, i);
         if (b == board) continue;
-        double np = calc(b, 1+num_exist(b)/4);
+        double np = calc(b, 1+num_exist(b)/6);
         if (p < np) {
             p = np;
             r = i;

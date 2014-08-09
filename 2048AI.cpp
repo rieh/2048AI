@@ -241,18 +241,21 @@ bool is_end(ull board) {
 
 int main() {
     init();
-    ull board = 0;
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            int k;
-            cin >> k;
-            board = setm(board, i, j, k);
+    while (true) {
+        ull board = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                int k;
+                cin >> k;
+                if (k == -1) return 0;
+                board = setm(board, i, j, k);
+            }
         }
-    }
-    if (is_end(board)) {
-        cout << -1 << endl;
-    } else {
-        cout << solve(board) << endl;
+        if (is_end(board)) {
+            cout << -1 << endl;
+        } else {
+            cout << solve(board) << endl;
+        }       
     }
     return 0;
 }
