@@ -169,10 +169,10 @@ inline int can_slide(ull board) {
 
 inline double calp(ull board) {
     double u = (16-num_exist(board));
-    //return u;
     double u2 = can_slide(board);
-    double u3 = (getm(board, 0, 0) >= 10 ? 1 : 0);
-    return u+u2/2+u3*3;
+    double u3 = (getm(board, 0, 0) >= 11 ? 1 : 0);
+    double u4 = u3*(getm(board, 0, 0) >= 10 ? 1 : 0);
+    return u+u2/2+u3*3+u4*5;
 }
 
 double calc(ull board, int dps) {
