@@ -246,7 +246,7 @@ int main() {
         for (int j = 0; j < 4; j++) {
             int k;
             cin >> k;
-            setm(board, i, j, k);
+            board = setm(board, i, j, k);
         }
     }
     if (is_end(board)) {
